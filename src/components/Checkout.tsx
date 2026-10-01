@@ -1,3 +1,4 @@
+import type React from "react";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { Lock, X } from "lucide-react";
 import { openCheckout, getPaddleEnvironment } from "@/lib/paddle";
@@ -6,12 +7,24 @@ export const CONSENT_TEXT =
   "I want instant access to the download and understand that my 14-day withdrawal right ends once the download starts. My 30-day money-back guarantee still applies.";
 
 type Ctx = { consent: boolean; setConsent: (v: boolean) => void; buy: () => void; busy: boolean; error: string | null };
-const CheckoutCtx = createContext<Ctx | null>(null);
+// Keep one context object across hot reloads; otherwise a reload of this file
+// creates a new context and existing buttons can't find the provider.
+const g = globalThis as unknown as { __spCheckoutCtx?: React.Context<Ctx | null> };
+const CheckoutCtx = (g.__spCheckoutCtx ??= createContext<Ctx | null>(null));
+
+// Safe fallback so the page never goes blank: buttons just jump to the price box.
+const fallback: Ctx = {
+  consent: false,
+  setConsent: () => {},
+  buy: () => document.getElementById("buy")?.scrollIntoView({ behavior: "smooth" }),
+  busy: false,
+  error: null,
+};
 
 export function useCheckout() {
   const c = useContext(CheckoutCtx);
-  if (!c) throw new Error("useCheckout outside provider");
-  return c;
+  if (!c) console.warn("useCheckout used outside CheckoutProvider");
+  return c ?? fallback;
 }
 
 export function ConsentBox({ id }: { id: string }) {
