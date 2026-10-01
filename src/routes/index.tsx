@@ -8,6 +8,7 @@ import cover from "@/assets/cover.webp";
 import page1 from "@/assets/page1.webp";
 import page2 from "@/assets/page2.webp";
 import page3 from "@/assets/page3.webp";
+import ogCover from "@/assets/og-cover.jpg.asset.json";
 import { PetQuiz } from "@/components/PetQuiz";
 import { CheckoutProvider, ConsentBox, PaymentTestModeBanner, useCheckout } from "@/components/Checkout";
 import { CookieBanner } from "@/components/CookieBanner";
@@ -31,9 +32,28 @@ function PricingBuy() {
   );
 }
 
-const TITLE = "Senior Pet Mobility: 28-Day Joint Exercise Plan | Steady Paws";
+const TITLE = "Senior Dog & Cat Mobility Exercises | 28-Day Home Plan | Steady Paws";
 const DESC =
-  "A gentle 10-minute-a-day home exercise plan for older dogs and cats. Interactive 16-page PDF, no equipment needed. €14, 30-day money-back guarantee.";
+  "Gentle 10-minute home exercises for older dogs and cats. No equipment. Interactive 28-day plan with tracker and safety guide. Instant download.";
+const SITE = "https://project--222a8fe5-6084-4fe9-a1ba-2cbea9dcd6db.lovable.app";
+const OG_IMAGE = SITE + ogCover.url;
+
+const productLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "Senior Pet Mobility: Exercises for Joint Health (28-Day Plan)",
+  description:
+    "Interactive 16-page PDF: a gentle 28-day, 10-minutes-a-day home exercise plan for older dogs and cats. No equipment needed.",
+  image: OG_IMAGE,
+  brand: { "@type": "Brand", name: "Steady Paws" },
+  offers: {
+    "@type": "Offer",
+    price: "14.00",
+    priceCurrency: "EUR",
+    availability: "https://schema.org/InStock",
+    url: SITE + "/",
+  },
+};
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,7 +62,21 @@ export const Route = createFileRoute("/")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:type", content: "product" },
+      { property: "og:url", content: "/" },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESC },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
+    links: [
+      { rel: "canonical", href: "/" },
+      { rel: "preload", as: "image", href: cover, type: "image/webp", fetchPriority: "high" },
+    ],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(productLd) }],
   }),
   component: Index,
 });
@@ -97,6 +131,13 @@ function Section({ id, className = "", children }: { id?: string; className?: st
 function H2({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <h2 className={`text-3xl font-semibold leading-tight sm:text-4xl ${className}`}>{children}</h2>;
 }
+
+const pageAlts = [
+  "Guide cover: Senior Pet Mobility, Exercises for Joint Health",
+  "Sample page: Sit-to-Stand exercise with step-by-step illustrations",
+  "Sample page: 28-day tick-off tracker",
+  "Sample page: cat play exercises with traffic-light safety guide",
+];
 
 const insideList = [
   "8 step-by-step dog exercises",
@@ -229,7 +270,7 @@ function Landing() {
           </div>
           <div className="flex justify-center">
             <div className="w-64 rotate-3 rounded-[2rem] bg-ink p-3 shadow-[0_40px_80px_-20px_oklch(0_0_0/0.6)] sm:w-80 lg:-rotate-0 lg:rotate-[4deg]">
-              <img src={cover} width={768} height={1024} alt="Senior Pet Mobility guide cover" className="rounded-[1.4rem]" />
+              <img src={cover} width={768} height={1024} alt="Senior Pet Mobility guide cover showing an older golden retriever and a grey cat resting together" fetchPriority="high" decoding="async" className="rounded-[1.4rem]" />
             </div>
           </div>
         </div>
@@ -296,7 +337,7 @@ function Landing() {
             <div className="no-scrollbar -mx-5 mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-6">
               {[cover, page1, page2, page3].map((src, i) => (
                 <div key={i} className="w-56 shrink-0 snap-center rounded-2xl bg-card p-2 shadow-soft ring-1 ring-ink/5 sm:w-64">
-                  <img src={src} width={768} height={1024} loading="lazy" alt={`Guide page ${i + 1}`} className="rounded-xl" />
+                  <img src={src} width={768} height={1024} loading="lazy" alt={pageAlts[i]} decoding="async" className="rounded-xl" />
                 </div>
               ))}
             </div>
@@ -422,7 +463,7 @@ function Landing() {
       {/* Pricing */}
       <section id="buy" className="scroll-mt-20 bg-forest-deep px-5 py-20 sm:py-24">
         <div className="reveal mx-auto max-w-lg rounded-3xl bg-card p-8 text-center shadow-soft sm:p-10">
-          <img src={cover} width={768} height={1024} loading="lazy" alt="" className="mx-auto w-28 -rotate-3 rounded-lg shadow-soft" />
+          <img src={cover} width={768} height={1024} loading="lazy" decoding="async" alt="Senior Pet Mobility guide cover" className="mx-auto w-28 -rotate-3 rounded-lg shadow-soft" />
           <h2 className="mt-6 text-2xl font-semibold sm:text-3xl">The 28-Day Senior Mobility Plan</h2>
           <ul className="mx-auto mt-6 max-w-xs space-y-2 text-left text-sm">
             {["11 dog & cat exercises", "10-minute daily routine", "4-week plan + 28-day tracker", "Day 1 & Day 28 mobility score", "Traffic-light safety guide", "Home checklist, vet questions & certificate"].map((t) => (
@@ -480,7 +521,8 @@ function Landing() {
           <Logo light />
           <a href="mailto:hello@steadypaws.com" className="flex items-center gap-2 text-sm"><Mail className="h-4 w-4" />hello@steadypaws.com</a>
           <nav className="flex flex-wrap gap-5 text-sm">
-            {["Terms", "Privacy", "Refund Policy", "Disclaimer"].map((l) => <a key={l} href="#" className="hover:text-cream">{l}</a>)}
+            {["Terms", "Privacy", "Refund Policy", "Disclaimer"].map((l) => <a key={l} href="#" className="inline-flex min-h-12 items-center hover:text-cream">{l}</a>)}
+            <button type="button" onClick={() => window.dispatchEvent(new Event("open-cookie-settings"))} className="inline-flex min-h-12 items-center hover:text-cream">Cookie settings</button>
           </nav>
         </div>
         <p className="mx-auto mt-6 max-w-6xl text-xs text-cream/50">Educational content only. Not a substitute for advice from your vet.</p>
