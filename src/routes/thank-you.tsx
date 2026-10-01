@@ -78,16 +78,13 @@ function ThankYou() {
               <a href={`/api/public/download?txn=${encodeURIComponent(validTxn)}`} className="btn-amber px-10 py-5 text-xl">
                 <Download className="h-6 w-6" aria-hidden /> Download your guide
               </a>
-            ) : null}
-            {validTxn && paid ? (
-              <p className="mt-4 text-cream/85">Tap to download now — you don't need to wait for an email.</p>
             ) : (
               <p className="inline-flex items-center gap-3 text-lg" role="status">
                 <Loader2 className="h-5 w-5 animate-spin" aria-hidden /> Confirming your payment…
               </p>
             )}
           </div>
-          {paid && <p className="mt-4 text-base text-cream/75">Link valid for 24 hours. We've also emailed it to you.</p>}
+          {paid && <p className="mt-4 text-base text-cream/75">Tap to download now — no need to wait for an email. This page link keeps working, so bookmark it.</p>}
         </div>
       </section>
 
