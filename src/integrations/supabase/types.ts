@@ -23,6 +23,9 @@ export type Database = {
           environment: string
           id: string
           paddle_transaction_id: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_source: string | null
         }
         Insert: {
           consent_ticked?: boolean
@@ -32,6 +35,9 @@ export type Database = {
           environment?: string
           id?: string
           paddle_transaction_id: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_source?: string | null
         }
         Update: {
           consent_ticked?: boolean
@@ -41,6 +47,9 @@ export type Database = {
           environment?: string
           id?: string
           paddle_transaction_id?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_source?: string | null
         }
         Relationships: []
       }
