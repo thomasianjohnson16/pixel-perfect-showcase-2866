@@ -84,7 +84,7 @@ function ThankYou() {
               </p>
             )}
           </div>
-          {paid && <p className="mt-4 text-base text-cream/75">Link valid for 24 hours. We've also emailed it to you.</p>}
+          {paid && <p className="mt-4 text-base text-cream/75">Tap to download now — no need to wait for an email. This page link keeps working, so bookmark it.</p>}
         </div>
       </section>
 

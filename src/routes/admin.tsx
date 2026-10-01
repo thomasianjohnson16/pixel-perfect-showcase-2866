@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { adminListOrders } from "@/lib/orders.functions";
+import { adminListOrders, adminResendEmail } from "@/lib/orders.functions";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -25,6 +25,15 @@ function Admin() {
   const [orders, setOrders] = useState<Order[] | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [sending, setSending] = useState<string | null>(null);
+  const [notes, setNotes] = useState<Record<string, string>>({});
+
+  const resend = async (id: string) => {
+    setSending(id);
+    const r = await adminResendEmail({ data: { password: pw, orderId: id } }).catch(() => ({ ok: false, message: "Something went wrong." }));
+    setSending(null);
+    setNotes((n) => ({ ...n, [id]: r.message }));
+  };
 
   const load = async (e?: FormEvent) => {
     e?.preventDefault();
@@ -57,7 +66,7 @@ function Admin() {
             <div className="mt-6 overflow-x-auto rounded-2xl bg-card shadow-soft">
               <table className="w-full text-left text-sm">
                 <thead className="bg-sage">
-                  <tr>{["Date", "Email", "Downloads", "UTM source", "Campaign", "Content", "Mode"].map((h) => <th key={h} className="px-4 py-3 font-semibold">{h}</th>)}</tr>
+                  <tr>{["Date", "Email", "Downloads", "UTM source", "Campaign", "Content", "Mode", "Email"].map((h) => <th key={h} className="px-4 py-3 font-semibold">{h}</th>)}</tr>
                 </thead>
                 <tbody>
                   {orders.map((o) => (
@@ -69,9 +78,15 @@ function Admin() {
                       <td className="px-4 py-3">{o.utm_campaign ?? "—"}</td>
                       <td className="px-4 py-3">{o.utm_content ?? "—"}</td>
                       <td className="px-4 py-3">{o.environment === "live" ? "Live" : "Test"}</td>
+                      <td className="px-4 py-3">
+                        <button type="button" disabled={!o.email || sending === o.id} onClick={() => resend(o.id)} className="btn-outline whitespace-nowrap">
+                          {sending === o.id ? "Sending…" : "Resend download email"}
+                        </button>
+                        {notes[o.id] && <p role="status" className="mt-1 text-sm text-ink/70">{notes[o.id]}</p>}
+                      </td>
                     </tr>
                   ))}
-                  {orders.length === 0 && <tr><td colSpan={7} className="px-4 py-8 text-center text-ink/60">No orders yet.</td></tr>}
+                  {orders.length === 0 && <tr><td colSpan={8} className="px-4 py-8 text-center text-ink/60">No orders yet.</td></tr>}
                 </tbody>
               </table>
             </div>

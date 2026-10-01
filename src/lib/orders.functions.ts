@@ -37,6 +37,24 @@ export const requestNewLink = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+export const adminResendEmail = createServerFn({ method: "POST" })
+  .inputValidator((d) => z.object({ password: z.string().min(1).max(200), orderId: z.string().uuid() }).parse(d))
+  .handler(async ({ data }) => {
+    const expected = process.env["ADMIN_PASSWORD"];
+    if (!expected) return { ok: false as const, message: "Admin password not set up yet." };
+    const { timingSafeEqual, createHash } = await import("crypto");
+    const h = (s: string) => createHash("sha256").update(s).digest();
+    if (!timingSafeEqual(h(data.password), h(expected))) return { ok: false as const, message: "Wrong password." };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: order } = await supabaseAdmin
+      .from("orders").select("email, paddle_transaction_id").eq("id", data.orderId).maybeSingle();
+    if (!order?.email) return { ok: false as const, message: "This order has no email address." };
+    const { sendDownloadEmail } = await import("./orders.server");
+    const r = await sendDownloadEmail(order.email, order.paddle_transaction_id).catch(() => ({ sent: false as const, reason: "failed" as const }));
+    if (r.sent) return { ok: true as const, message: "Email sent." };
+    return { ok: false as const, message: r.reason === "email_not_set_up" ? "Not sent: email domain not set up yet." : "Sending failed — try again." };
+  });
+
 export const adminListOrders = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ password: z.string().min(1).max(200) }).parse(d))
   .handler(async ({ data }) => {
