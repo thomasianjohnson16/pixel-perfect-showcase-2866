@@ -4,10 +4,10 @@ import {
   PawPrint, Download, Heart, ShieldCheck, Lock, Check, X, TrendingUp, Moon, Footprints,
   Timer, Gamepad2, Cat, Dumbbell, Droplets, RefreshCw, ChevronDown, CreditCard, Mail,
 } from "lucide-react";
-import cover from "@/assets/cover.jpg";
-import page1 from "@/assets/page1.jpg";
-import page2 from "@/assets/page2.jpg";
-import page3 from "@/assets/page3.jpg";
+import cover from "@/assets/cover.webp";
+import page1 from "@/assets/page1.webp";
+import page2 from "@/assets/page2.webp";
+import page3 from "@/assets/page3.webp";
 import { PetQuiz } from "@/components/PetQuiz";
 import { CheckoutProvider, ConsentBox, PaymentTestModeBanner, useCheckout } from "@/components/Checkout";
 import { CookieBanner } from "@/components/CookieBanner";
