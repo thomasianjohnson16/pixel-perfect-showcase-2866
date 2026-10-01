@@ -233,7 +233,7 @@ function Landing() {
   }, []);
 
   return (
-    <div className="bg-cream text-ink">
+    <div className="overflow-x-clip bg-cream text-ink">
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-ink/5 bg-cream/90 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
@@ -332,7 +332,7 @@ function Landing() {
       {/* Inside */}
       <Section id="inside" className="bg-card">
         <div className="grid items-start gap-12 lg:grid-cols-2">
-          <div>
+          <div className="min-w-0">
             <H2>What's inside</H2>
             <div className="no-scrollbar -mx-5 mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-6">
               {[cover, page1, page2, page3].map((src, i) => (
