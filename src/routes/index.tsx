@@ -8,6 +8,7 @@ import cover from "@/assets/cover.jpg";
 import page1 from "@/assets/page1.jpg";
 import page2 from "@/assets/page2.jpg";
 import page3 from "@/assets/page3.jpg";
+import { PetQuiz } from "@/components/PetQuiz";
 
 const TITLE = "Senior Pet Mobility: 28-Day Joint Exercise Plan | Steady Paws";
 const DESC =
@@ -426,8 +427,9 @@ function Index() {
         </div>
       </Section>
 
-      {/* Quiz placeholder (to be added) */}
-      <section id="quiz" className="scroll-mt-20" />
+      <section id="quiz" className="scroll-mt-20 bg-sage px-5 py-20 sm:py-24">
+        <PetQuiz />
+      </section>
 
       {/* Final CTA */}
       <section className="bg-forest-deep px-5 py-20 text-center text-cream sm:py-24">
