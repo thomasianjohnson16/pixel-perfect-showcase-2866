@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { adminListOrders, adminResendEmail } from "@/lib/orders.functions";
+import { adminListOrders, adminResendEmail, adminResetDownloads } from "@/lib/orders.functions";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/admin")({
 
 type Order = {
   id: string; created_at: string; email: string | null; download_count: number;
-  utm_source: string | null; utm_campaign: string | null; utm_content: string | null; environment: string;
+  utm_source: string | null; utm_campaign: string | null; utm_content: string | null; environment: string; refunded: boolean;
 };
 
 function Admin() {
@@ -27,6 +27,12 @@ function Admin() {
   const [busy, setBusy] = useState(false);
   const [sending, setSending] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<string, string>>({});
+
+  const reset = async (id: string) => {
+    const r = await adminResetDownloads({ data: { password: pw, orderId: id } }).catch(() => ({ ok: false, message: "Something went wrong." }));
+    setNotes((n) => ({ ...n, [id]: r.message }));
+    if (r.ok) setOrders((os) => os?.map((o) => (o.id === id ? { ...o, download_count: 0 } : o)) ?? null);
+  };
 
   const resend = async (id: string) => {
     setSending(id);
@@ -72,8 +78,11 @@ function Admin() {
                   {orders.map((o) => (
                     <tr key={o.id} className="border-t border-ink/5">
                       <td className="whitespace-nowrap px-4 py-3">{new Date(o.created_at).toLocaleString("en-IE")}</td>
-                      <td className="px-4 py-3">{o.email ?? "—"}</td>
-                      <td className="px-4 py-3">{o.download_count}</td>
+                      <td className="px-4 py-3">{o.email ?? "—"}{o.refunded && <span className="ml-2 rounded-full bg-danger/15 px-2 py-0.5 text-sm font-semibold text-danger">Refunded</span>}</td>
+                      <td className="px-4 py-3">
+                        <span>{o.download_count}/10</span>
+                        {o.download_count > 0 && <button type="button" onClick={() => reset(o.id)} className="ml-2 underline">Reset downloads</button>}
+                      </td>
                       <td className="px-4 py-3">{o.utm_source ?? "—"}</td>
                       <td className="px-4 py-3">{o.utm_campaign ?? "—"}</td>
                       <td className="px-4 py-3">{o.utm_content ?? "—"}</td>

@@ -9,7 +9,11 @@ import { track } from "@/lib/pixel";
 import { CookieBanner } from "@/components/CookieBanner";
 
 export const Route = createFileRoute("/thank-you")({
-  validateSearch: (s: Record<string, unknown>) => ({ txn: typeof s["txn"] === "string" ? (s["txn"] as string) : undefined }),
+  validateSearch: (s: Record<string, unknown>) => {
+    // Our own redirect uses ?txn=; the payment provider's return link uses ?_ptxn=.
+    const v = typeof s["txn"] === "string" ? s["txn"] : typeof s["_ptxn"] === "string" ? s["_ptxn"] : undefined;
+    return { txn: v as string | undefined };
+  },
   head: () => ({
     meta: [
       { title: "Thank you – your guide is ready | Steady Paws" },
