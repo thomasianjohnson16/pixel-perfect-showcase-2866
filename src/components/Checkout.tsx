@@ -1,3 +1,4 @@
+import type React from "react";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { Lock, X } from "lucide-react";
 import { openCheckout, getPaddleEnvironment } from "@/lib/paddle";
