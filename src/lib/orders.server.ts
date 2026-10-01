@@ -1,7 +1,7 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { gatewayFetch, type PaddleEnv } from "./paddle.server";
 
-export const PDF_PATH = "senior-pet-mobility.pdf";
+export const PDF_PATH = "SteadyPawSeniorPetGuide.pdf";
 const LINK_TTL = 60 * 60 * 24;
 
 type OrderMeta = { consent?: string; utm_source?: string; utm_campaign?: string; utm_content?: string };
@@ -42,7 +42,7 @@ export async function saveOrder(
     { onConflict: "paddle_transaction_id", ignoreDuplicates: true },
   );
   if (error) throw error;
-  if (email) await sendDownloadEmail(email, txnId);
+  if (email) await sendDownloadEmail(email, txnId).catch((e) => console.error("[email] failed", e));
   return true;
 }
 
@@ -71,10 +71,13 @@ export function siteOrigin() {
   return process.env["PUBLIC_SITE_URL"] ?? "";
 }
 
+export type EmailResult = { sent: true } | { sent: false; reason: "email_not_set_up" | "failed" };
+
 /**
- * Sends the download email. Email sending is not connected yet (needs an email
- * domain), so for now this only logs. Wire the real sender in here.
+ * Sends the download email. No email domain is connected yet, so this reports
+ * "email_not_set_up". Wire the real sender in here once a domain is verified.
  */
-export async function sendDownloadEmail(email: string, txnId: string) {
-  console.log("[email] download email pending email setup", { to: email.replace(/(.).+@/, "$1***@"), txnId });
+export async function sendDownloadEmail(email: string, txnId: string): Promise<EmailResult> {
+  console.warn("[email] NOT SENT: no email domain configured", { to: email.replace(/(.).+@/, "$1***@"), txnId });
+  return { sent: false, reason: "email_not_set_up" };
 }
