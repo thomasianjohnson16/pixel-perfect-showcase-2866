@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Cat, Dog, PawPrint, Check } from "lucide-react";
+import { useCheckout } from "@/components/Checkout";
 
 type Pet = "Dog" | "Cat" | null;
 
@@ -24,10 +25,10 @@ const optBtn = (on: boolean) =>
   `flex w-full items-center justify-between gap-3 rounded-2xl border-2 px-5 py-4 text-left font-medium transition ${
     on ? "border-forest bg-sage" : "border-ink/10 bg-card hover:border-forest/40"
   }`;
-const amberBtn =
-  "inline-flex w-full items-center justify-center rounded-full bg-amber px-7 py-3.5 font-semibold text-amber-foreground shadow-soft transition hover:brightness-105 sm:w-auto";
+const amberBtn = "btn-amber w-full sm:w-auto";
 
 export function PetQuiz() {
+  const { buy } = useCheckout();
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState<1 | -1>(1);
   const [name, setName] = useState("");
@@ -45,6 +46,7 @@ export function PetQuiz() {
   const reset = () => { setName(""); setPet(null); setAge(null); setSigns([]); setFlags([]); setDir(-1); setStep(0); };
 
   const n = name.trim();
+  if (typeof window !== "undefined" && step === TOTAL) { try { sessionStorage.setItem("sp_pet", JSON.stringify({ name: n, pet })); } catch {} }
   const Name = n || `your ${(pet ?? "pet").toLowerCase()}`;
   const NameCap = n || `Your ${(pet ?? "pet").toLowerCase()}`;
   const possessive = n ? `${n}'s` : "your";
@@ -168,7 +170,7 @@ export function PetQuiz() {
             <p className="mt-1">{pet === "Cat" ? "Slow-Mo Wand Play and the Step-Up Staircase" : "Sit-to-Stand and Cookie Stretches in week 1"}</p>
           </div>
         )}
-        <a href="#buy" className={`${amberBtn} mt-6`}>Get {possessive} 28-day plan – €14</a>
+        <button type="button" onClick={buy} className={`${amberBtn} mt-6`}>Get {possessive} 28-day plan – €14</button>
         <p className="mt-3 text-sm text-ink/60">30-day money-back guarantee</p>
       </>
     );

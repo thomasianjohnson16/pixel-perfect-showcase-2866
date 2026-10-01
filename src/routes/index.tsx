@@ -9,6 +9,27 @@ import page1 from "@/assets/page1.jpg";
 import page2 from "@/assets/page2.jpg";
 import page3 from "@/assets/page3.jpg";
 import { PetQuiz } from "@/components/PetQuiz";
+import { CheckoutProvider, ConsentBox, PaymentTestModeBanner, useCheckout } from "@/components/Checkout";
+import { CookieBanner } from "@/components/CookieBanner";
+import { track } from "@/lib/pixel";
+
+export function BuyTrigger({ children, className = "" }: { children: ReactNode; className?: string }) {
+  const { buy } = useCheckout();
+  return <button type="button" onClick={buy} className={className}>{children}</button>;
+}
+
+function PricingBuy() {
+  const { consent, buy, busy, error } = useCheckout();
+  return (
+    <>
+      <div className="mt-7"><ConsentBox id="consent-pricing" /></div>
+      <button type="button" disabled={!consent || busy} onClick={buy} className="btn-amber mt-4 w-full text-lg disabled:cursor-not-allowed disabled:opacity-50">
+        {busy ? "Opening secure checkout…" : "Get instant access"}
+      </button>
+      {error && <p role="alert" className="mt-3 text-sm text-danger">{error}</p>}
+    </>
+  );
+}
 
 const TITLE = "Senior Pet Mobility: 28-Day Joint Exercise Plan | Steady Paws";
 const DESC =
@@ -27,14 +48,11 @@ export const Route = createFileRoute("/")({
 });
 
 const PRICE = "€14";
-const buyBtn =
-  "inline-flex items-center justify-center rounded-full bg-amber px-7 py-3.5 font-semibold text-amber-foreground shadow-soft transition hover:brightness-105 hover:-translate-y-0.5";
+const buyBtn = "btn-amber";
 
 function BuyButton({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <a href="#buy" className={`${buyBtn} ${className}`}>
-      {children}
-    </a>
+    <BuyTrigger className={`${buyBtn} ${className}`}>{children}</BuyTrigger>
   );
 }
 
@@ -166,9 +184,7 @@ function Index() {
             <a href="#how" className="hover:text-forest">How it works</a>
             <a href="#faq" className="hover:text-forest">FAQ</a>
           </nav>
-          <a href="#buy" className="rounded-full bg-amber px-4 py-2 text-sm font-semibold text-amber-foreground transition hover:brightness-105">
-            Get the guide – {PRICE}
-          </a>
+          <BuyTrigger className="btn-amber btn-sm">Get the guide – {PRICE}</BuyTrigger>
         </div>
       </header>
 
@@ -397,7 +413,7 @@ function Index() {
           </ul>
           <p className="mt-8 font-serif text-6xl font-semibold">{PRICE}</p>
           <p className="mt-2 text-sm text-ink/60">One-time payment. Instant download. Yours to keep.</p>
-          <a href="#checkout" className={`${buyBtn} mt-7 w-full text-lg`}>Get instant access</a>
+          <PricingBuy />
           <div className="mt-6 flex items-start gap-3 rounded-2xl bg-sage p-4 text-left text-sm">
             <ShieldCheck className="h-6 w-6 shrink-0 text-forest" />
             <p><strong>30-day money-back guarantee.</strong> If it doesn't help, email us and we'll refund you. No forms, no fuss.</p>
@@ -456,7 +472,7 @@ function Index() {
       <div className={`fixed inset-x-0 bottom-0 z-50 border-t border-ink/10 bg-cream/95 px-5 py-3 backdrop-blur transition-transform md:hidden ${showBar ? "translate-y-0" : "translate-y-full"}`}>
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium"><strong className="font-serif text-lg">{PRICE}</strong> · 28-day plan</span>
-          <a href="#buy" className="rounded-full bg-amber px-6 py-2.5 text-sm font-semibold text-amber-foreground">Get it</a>
+          <BuyTrigger className="btn-amber btn-sm">Get it</BuyTrigger>
         </div>
       </div>
     </div>
