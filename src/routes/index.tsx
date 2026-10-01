@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import {
-  PawPrint, Download, Heart, ShieldCheck, Lock, Check, X, Stairs, Moon, Footprints,
+  PawPrint, Download, Heart, ShieldCheck, Lock, Check, X, TrendingUp, Moon, Footprints,
   Timer, Gamepad2, Cat, Dumbbell, Droplets, RefreshCw, ChevronDown, CreditCard, Mail,
 } from "lucide-react";
 import cover from "@/assets/cover.jpg";
@@ -210,14 +210,14 @@ function Index() {
         </div>
         <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-3">
           {[
-            [Stairs, "Hesitates at stairs or the sofa"],
+            [TrendingUp, "Hesitates at stairs or the sofa"],
             [Moon, "Slow to get up after resting"],
             [Footprints, "Back legs slip on smooth floors"],
             [Timer, "Shorter, slower walks"],
             [Gamepad2, "Less interest in play"],
             [Cat, "Cats: avoids high spots"],
           ].map(([I, t]) => {
-            const Icon = I as typeof Stairs;
+            const Icon = I as typeof TrendingUp;
             return (
               <div key={t as string} className="rounded-2xl bg-card p-5 shadow-soft">
                 <Icon className="h-7 w-7 text-forest" strokeWidth={1.5} />
