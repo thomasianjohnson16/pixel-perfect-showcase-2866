@@ -14,7 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      orders: {
+        Row: {
+          consent_ticked: boolean
+          created_at: string
+          download_count: number
+          email: string | null
+          environment: string
+          id: string
+          paddle_transaction_id: string
+        }
+        Insert: {
+          consent_ticked?: boolean
+          created_at?: string
+          download_count?: number
+          email?: string | null
+          environment?: string
+          id?: string
+          paddle_transaction_id: string
+        }
+        Update: {
+          consent_ticked?: boolean
+          created_at?: string
+          download_count?: number
+          email?: string | null
+          environment?: string
+          id?: string
+          paddle_transaction_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
