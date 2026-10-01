@@ -14,7 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      orders: {
+        Row: {
+          consent_ticked: boolean
+          created_at: string
+          download_count: number
+          email: string | null
+          environment: string
+          id: string
+          paddle_transaction_id: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          consent_ticked?: boolean
+          created_at?: string
+          download_count?: number
+          email?: string | null
+          environment?: string
+          id?: string
+          paddle_transaction_id: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          consent_ticked?: boolean
+          created_at?: string
+          download_count?: number
+          email?: string | null
+          environment?: string
+          id?: string
+          paddle_transaction_id?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_source?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

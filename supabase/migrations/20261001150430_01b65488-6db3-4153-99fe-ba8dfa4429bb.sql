@@ -1,0 +1,1 @@
+ALTER TABLE public.orders ADD COLUMN utm_source text, ADD COLUMN utm_campaign text, ADD COLUMN utm_content text;

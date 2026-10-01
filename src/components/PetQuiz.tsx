@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Cat, Dog, PawPrint, Check } from "lucide-react";
+import { useCheckout } from "@/components/Checkout";
 
 type Pet = "Dog" | "Cat" | null;
 
@@ -24,10 +25,10 @@ const optBtn = (on: boolean) =>
   `flex w-full items-center justify-between gap-3 rounded-2xl border-2 px-5 py-4 text-left font-medium transition ${
     on ? "border-forest bg-sage" : "border-ink/10 bg-card hover:border-forest/40"
   }`;
-const amberBtn =
-  "inline-flex w-full items-center justify-center rounded-full bg-amber px-7 py-3.5 font-semibold text-amber-foreground shadow-soft transition hover:brightness-105 sm:w-auto";
+const amberBtn = "btn-amber w-full sm:w-auto";
 
 export function PetQuiz() {
+  const { buy } = useCheckout();
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState<1 | -1>(1);
   const [name, setName] = useState("");
@@ -45,6 +46,7 @@ export function PetQuiz() {
   const reset = () => { setName(""); setPet(null); setAge(null); setSigns([]); setFlags([]); setDir(-1); setStep(0); };
 
   const n = name.trim();
+  if (typeof window !== "undefined" && step === TOTAL) { try { sessionStorage.setItem("sp_pet", JSON.stringify({ name: n, pet })); } catch {} }
   const Name = n || `your ${(pet ?? "pet").toLowerCase()}`;
   const NameCap = n || `Your ${(pet ?? "pet").toLowerCase()}`;
   const possessive = n ? `${n}'s` : "your";
@@ -57,7 +59,7 @@ export function PetQuiz() {
 
   const multiQ = (list: string[], set: (v: string[]) => void, opts: string[]) => (
     <>
-      <p className="mb-4 text-sm text-ink/60">Choose all that apply</p>
+      <p className="mb-4 text-base text-ink/60">Choose all that apply</p>
       <div className="space-y-3">
         {[...opts, NONE].map((o) => {
           const on = list.includes(o);
@@ -93,7 +95,7 @@ export function PetQuiz() {
           maxLength={30}
           className="mt-6 w-full rounded-2xl border-2 border-ink/10 bg-card px-5 py-4 text-lg outline-none focus:border-forest"
         />
-        <p className="mt-2 text-xs text-ink/50">Optional</p>
+        <p className="mt-2 text-base text-ink/50">Optional</p>
         {next(n ? "Next" : "Skip")}
       </>
     );
@@ -147,7 +149,7 @@ export function PetQuiz() {
         <p className="mt-3 text-ink/80">
           {NameCap} is showing signs that need a vet's eyes before starting any exercise plan. Once your vet gives the all-clear, this guide will be here.
         </p>
-        <a href="#inside" className="mt-5 inline-block text-sm font-medium text-forest underline underline-offset-4">Have a look at the guide</a>
+        <a href="#inside" className="mt-5 inline-block text-base font-medium text-forest underline underline-offset-4">Have a look at the guide</a>
       </div>
     );
   } else {
@@ -164,12 +166,12 @@ export function PetQuiz() {
         </p>
         {strong && (
           <div className="mt-5 rounded-2xl bg-sage p-5">
-            <p className="text-sm font-semibold text-forest">Where {Name} would start:</p>
+            <p className="text-base font-semibold text-forest">Where {Name} would start:</p>
             <p className="mt-1">{pet === "Cat" ? "Slow-Mo Wand Play and the Step-Up Staircase" : "Sit-to-Stand and Cookie Stretches in week 1"}</p>
           </div>
         )}
-        <a href="#buy" className={`${amberBtn} mt-6`}>Get {possessive} 28-day plan – €14</a>
-        <p className="mt-3 text-sm text-ink/60">30-day money-back guarantee</p>
+        <button type="button" onClick={buy} className={`${amberBtn} mt-6`}>Get {possessive} 28-day plan – €14</button>
+        <p className="mt-3 text-base text-ink/60">30-day money-back guarantee</p>
       </>
     );
   }
@@ -188,12 +190,12 @@ export function PetQuiz() {
             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-sage">
               <Icon className="h-6 w-6 text-forest" strokeWidth={1.5} />
             </span>
-            {step < TOTAL && <span className="text-xs font-medium text-ink/50">{step + 1} / {TOTAL}</span>}
+            {step < TOTAL && <span className="text-base font-medium text-ink/50">{step + 1} / {TOTAL}</span>}
           </div>
           <div key={step} className={`animate-in fade-in duration-300 ${dir === 1 ? "slide-in-from-right-8" : "slide-in-from-left-8"}`}>
             {body}
           </div>
-          <div className="mt-6 text-sm">
+          <div className="mt-6 text-base">
             {step > 0 && step < TOTAL && (
               <button type="button" onClick={() => go(step - 1)} className="font-medium text-forest underline-offset-4 hover:underline">← Back</button>
             )}

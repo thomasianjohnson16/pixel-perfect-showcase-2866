@@ -1,14 +1,7 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /thank-you
+Disallow: /api/
+
+Sitemap: https://project--222a8fe5-6084-4fe9-a1ba-2cbea9dcd6db.lovable.app/sitemap.xml
