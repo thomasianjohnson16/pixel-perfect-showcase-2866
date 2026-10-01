@@ -147,6 +147,18 @@ function Testimonials() {
 }
 
 function Index() {
+  return (
+    <CheckoutProvider>
+      <PaymentTestModeBanner />
+      <Landing />
+      <CookieBanner />
+    </CheckoutProvider>
+  );
+}
+
+let viewContentSent = false;
+
+function Landing() {
   const [showBar, setShowBar] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
@@ -164,7 +176,13 @@ function Index() {
     const io2 = new IntersectionObserver((es) => {
       es.forEach((e) => {
         if (e.target === hero) pastHero = !e.isIntersecting;
-        if (e.target === buy) buyVisible = e.isIntersecting;
+        if (e.target === buy) {
+          buyVisible = e.isIntersecting;
+          if (e.isIntersecting && !viewContentSent) {
+            viewContentSent = true;
+            track("ViewContent", { content_name: "Senior Pet Mobility 28-Day Plan", value: 14, currency: "EUR" });
+          }
+        }
       });
       update();
     });
