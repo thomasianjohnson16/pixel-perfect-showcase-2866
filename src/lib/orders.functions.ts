@@ -3,6 +3,15 @@ import { z } from "zod";
 
 const envSchema = z.enum(["sandbox", "live"]);
 
+/** Checks the admin password (server-side only). */
+async function checkAdmin(password: string): Promise<string | null> {
+  const expected = process.env["ADMIN_PASSWORD"];
+  if (!expected) return "Admin password not set up yet.";
+  const { timingSafeEqual, createHash } = await import("crypto");
+  const h = (s: string) => createHash("sha256").update(s).digest();
+  return timingSafeEqual(h(password), h(expected)) ? null : "Wrong password.";
+}
+
 export const resolvePaddlePrice = createServerFn({ method: "GET" })
   .inputValidator((d) => z.object({ priceId: z.string().max(100), environment: envSchema }).parse(d))
   .handler(async ({ data }) => {
@@ -40,11 +49,8 @@ export const requestNewLink = createServerFn({ method: "POST" })
 export const adminResendEmail = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ password: z.string().min(1).max(200), orderId: z.string().uuid() }).parse(d))
   .handler(async ({ data }) => {
-    const expected = process.env["ADMIN_PASSWORD"];
-    if (!expected) return { ok: false as const, message: "Admin password not set up yet." };
-    const { timingSafeEqual, createHash } = await import("crypto");
-    const h = (s: string) => createHash("sha256").update(s).digest();
-    if (!timingSafeEqual(h(data.password), h(expected))) return { ok: false as const, message: "Wrong password." };
+    const denied = await checkAdmin(data.password);
+    if (denied) return { ok: false as const, message: denied };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: order } = await supabaseAdmin
       .from("orders").select("email, paddle_transaction_id").eq("id", data.orderId).maybeSingle();
@@ -58,16 +64,33 @@ export const adminResendEmail = createServerFn({ method: "POST" })
 export const adminListOrders = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ password: z.string().min(1).max(200) }).parse(d))
   .handler(async ({ data }) => {
-    const expected = process.env["ADMIN_PASSWORD"];
-    if (!expected) return { ok: false as const, error: "Admin password not set up yet." };
-    const { timingSafeEqual, createHash } = await import("crypto");
-    const h = (s: string) => createHash("sha256").update(s).digest();
-    if (!timingSafeEqual(h(data.password), h(expected))) return { ok: false as const, error: "Wrong password." };
+    const denied = await checkAdmin(data.password);
+    if (denied) return { ok: false as const, error: denied };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: orders, error } = await supabaseAdmin
       .from("orders")
-      .select("id, created_at, email, download_count, utm_source, utm_campaign, utm_content, environment, consent_ticked")
+      .select("id, paddle_transaction_id, created_at, email, download_count, utm_source, utm_campaign, utm_content, environment, consent_ticked")
       .order("created_at", { ascending: false }).limit(500);
     if (error) return { ok: false as const, error: "Could not load orders." };
-    return { ok: true as const, orders: orders ?? [] };
+    const { fetchRefundedTxns } = await import("./orders.server");
+    const list = orders ?? [];
+    const refunded = new Set<string>();
+    for (const env of ["sandbox", "live"] as const) {
+      const ids = list.filter((o) => o.environment === env).map((o) => o.paddle_transaction_id);
+      if (ids.length) (await fetchRefundedTxns(env, ids)).forEach((t) => refunded.add(t));
+    }
+    return {
+      ok: true as const,
+      orders: list.map(({ paddle_transaction_id, ...o }) => ({ ...o, refunded: refunded.has(paddle_transaction_id) })),
+    };
+  });
+
+export const adminResetDownloads = createServerFn({ method: "POST" })
+  .inputValidator((d) => z.object({ password: z.string().min(1).max(200), orderId: z.string().uuid() }).parse(d))
+  .handler(async ({ data }) => {
+    const denied = await checkAdmin(data.password);
+    if (denied) return { ok: false as const, message: denied };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("orders").update({ download_count: 0 }).eq("id", data.orderId);
+    return error ? { ok: false as const, message: "Could not reset." } : { ok: true as const, message: "Downloads reset." };
   });

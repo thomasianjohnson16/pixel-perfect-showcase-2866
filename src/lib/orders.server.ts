@@ -3,6 +3,7 @@ import { gatewayFetch, type PaddleEnv } from "./paddle.server";
 
 export const PDF_PATH = "SteadyPawSeniorPetGuide.pdf";
 const LINK_TTL = 60 * 60 * 24;
+export const DOWNLOAD_LIMIT = 10;
 
 type OrderMeta = { consent?: string; utm_source?: string; utm_campaign?: string; utm_content?: string };
 
@@ -24,24 +25,23 @@ export async function saveOrder(
   customerId: string | null | undefined,
   meta: OrderMeta | null | undefined,
 ) {
-  const { data: existing } = await supabaseAdmin
-    .from("orders").select("id").eq("paddle_transaction_id", txnId).maybeSingle();
-  if (existing) return false;
+  // Single insert: the unique transaction id guarantees only one caller wins,
+  // so the webhook and the thank-you check can never both send the email.
   const email = await fetchCustomerEmail(env, customerId);
   const clip = (v?: string) => (v ? String(v).slice(0, 200) : null);
-  const { error } = await supabaseAdmin.from("orders").upsert(
-    {
-      paddle_transaction_id: txnId,
-      email,
-      consent_ticked: meta?.consent === "true",
-      environment: env,
-      utm_source: clip(meta?.utm_source),
-      utm_campaign: clip(meta?.utm_campaign),
-      utm_content: clip(meta?.utm_content),
-    },
-    { onConflict: "paddle_transaction_id", ignoreDuplicates: true },
-  );
-  if (error) throw error;
+  const { error } = await supabaseAdmin.from("orders").insert({
+    paddle_transaction_id: txnId,
+    email,
+    consent_ticked: meta?.consent === "true",
+    environment: env,
+    utm_source: clip(meta?.utm_source),
+    utm_campaign: clip(meta?.utm_campaign),
+    utm_content: clip(meta?.utm_content),
+  });
+  if (error) {
+    if (error.code === "23505") return false; // already saved by the other path
+    throw error;
+  }
   if (email) await sendDownloadEmail(email, txnId).catch((e) => console.error("[email] failed", e));
   return true;
 }
@@ -80,4 +80,21 @@ export type EmailResult = { sent: true } | { sent: false; reason: "email_not_set
 export async function sendDownloadEmail(email: string, txnId: string): Promise<EmailResult> {
   console.warn("[email] NOT SENT: no email domain configured", { to: email.replace(/(.).+@/, "$1***@"), txnId });
   return { sent: false, reason: "email_not_set_up" };
+}
+
+/** Returns the set of transaction ids that have an approved refund. */
+export async function fetchRefundedTxns(env: PaddleEnv, txnIds: string[]) {
+  const refunded = new Set<string>();
+  for (let i = 0; i < txnIds.length; i += 50) {
+    const chunk = txnIds.slice(i, i + 50);
+    try {
+      const res = await gatewayFetch(env, `/adjustments?action=refund&transaction_id=${chunk.map(encodeURIComponent).join(",")}&per_page=200`);
+      if (!res.ok) continue;
+      const json = (await res.json()) as { data?: { transaction_id: string; status: string }[] };
+      for (const a of json.data ?? []) if (a.status === "approved") refunded.add(a.transaction_id);
+    } catch (e) {
+      console.error("[refunds] lookup failed", e);
+    }
+  }
+  return refunded;
 }

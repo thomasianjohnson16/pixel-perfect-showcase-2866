@@ -6,7 +6,8 @@
 - [x] /thank-you with server check, polling, signed 24h download, tips, lost-link form
 - [ ] Download email — blocked: user needs to set up an email domain
 - [x] /admin password-protected orders list (with UTM source) — needs ADMIN_PASSWORD from user
-- [ ] Upload senior-pet-mobility.pdf to the private "products" storage — user
+- [x] Guide PDF uploaded (SteadyPawSeniorPetGuide.pdf)
+- [x] Single email per order, 10-download limit + reset, refunded label on /admin, _ptxn fallback
 
 ## Launch polish
 - [x] Mobile 375/414 checks, 48px buttons, 16px text
