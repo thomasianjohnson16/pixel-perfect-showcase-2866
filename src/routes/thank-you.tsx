@@ -9,7 +9,7 @@ import { track } from "@/lib/pixel";
 import { CookieBanner } from "@/components/CookieBanner";
 
 export const Route = createFileRoute("/thank-you")({
-  validateSearch: (s: Record<string, unknown>) => ({ txn: typeof s.txn === "string" ? s.txn : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({ txn: typeof s["txn"] === "string" ? (s["txn"] as string) : undefined }),
   head: () => ({
     meta: [
       { title: "Thank you – your guide is ready | Steady Paws" },

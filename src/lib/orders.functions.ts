@@ -10,7 +10,7 @@ export const resolvePaddlePrice = createServerFn({ method: "GET" })
     const res = await gatewayFetch(data.environment, `/prices?external_id=${encodeURIComponent(data.priceId)}`);
     const json = (await res.json()) as { data?: { id: string }[] };
     if (!json.data?.length) throw new Error("Price not found");
-    return json.data[0].id;
+    return json.data[0]!.id;
   });
 
 export const getOrderStatus = createServerFn({ method: "POST" })
