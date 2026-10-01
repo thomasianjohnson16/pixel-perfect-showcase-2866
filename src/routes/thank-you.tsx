@@ -84,7 +84,7 @@ function ThankYou() {
               </p>
             )}
           </div>
-          {paid && <p className="mt-4 text-sm text-cream/75">Link valid for 24 hours. We've also emailed it to you.</p>}
+          {paid && <p className="mt-4 text-base text-cream/75">Link valid for 24 hours. We've also emailed it to you.</p>}
         </div>
       </section>
 
@@ -143,7 +143,7 @@ function LostLink() {
           <button type="submit" disabled={busy} className="btn-outline">{busy ? "Sending…" : "Send new link"}</button>
         </form>
       )}
-      {err && <p role="alert" className="mt-2 text-sm text-danger">{err}</p>}
+      {err && <p role="alert" className="mt-2 text-base text-danger">{err}</p>}
     </div>
   );
 }

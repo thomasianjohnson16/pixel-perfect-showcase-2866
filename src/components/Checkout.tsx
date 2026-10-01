@@ -17,7 +17,7 @@ export function useCheckout() {
 export function ConsentBox({ id }: { id: string }) {
   const { consent, setConsent } = useCheckout();
   return (
-    <label htmlFor={id} className="flex cursor-pointer items-start gap-3 rounded-2xl border-2 border-ink/10 bg-card p-4 text-left text-sm leading-relaxed has-[:checked]:border-forest">
+    <label htmlFor={id} className="flex cursor-pointer items-start gap-3 rounded-2xl border-2 border-ink/10 bg-card p-4 text-left text-base leading-relaxed has-[:checked]:border-forest">
       <input
         id={id}
         type="checkbox"
@@ -82,8 +82,8 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
           <button type="button" disabled={!consent || busy} onClick={start} className="btn-amber mt-5 w-full disabled:cursor-not-allowed disabled:opacity-50">
             {busy ? "Opening secure checkout…" : "Continue to secure checkout"}
           </button>
-          {error && <p role="alert" className="mt-3 text-sm text-danger">{error}</p>}
-          <p className="mt-4 flex items-center justify-center gap-2 text-sm text-ink/70"><Lock className="h-4 w-4" aria-hidden /> Secure checkout · 30-day money-back guarantee</p>
+          {error && <p role="alert" className="mt-3 text-base text-danger">{error}</p>}
+          <p className="mt-4 flex items-center justify-center gap-2 text-base text-ink/70"><Lock className="h-4 w-4" aria-hidden /> Secure checkout · 30-day money-back guarantee</p>
         </div>
       </dialog>
     </CheckoutCtx.Provider>
@@ -93,7 +93,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
 export function PaymentTestModeBanner() {
   if (getPaddleEnvironment() !== "sandbox") return null;
   return (
-    <div className="w-full bg-amber/25 px-4 py-2 text-center text-sm text-ink">
+    <div className="w-full bg-amber/25 px-4 py-2 text-center text-base text-ink">
       Test mode: payments in the preview aren't real. Use card 4242 4242 4242 4242.
     </div>
   );
