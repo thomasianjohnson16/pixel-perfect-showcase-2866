@@ -331,7 +331,7 @@ function Landing() {
 
       {/* Inside */}
       <Section id="inside" className="bg-card">
-        <div className="grid items-start gap-12 lg:grid-cols-2">
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
           <div className="min-w-0">
             <H2>What's inside</H2>
             <div className="no-scrollbar -mx-5 mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-6">
