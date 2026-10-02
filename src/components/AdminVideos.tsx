@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { adminCreateVideoUpload, adminListVideos } from "@/lib/orders.functions";
 
-type Video = { name: string; size: number; created_at: string; url: string };
+type Video = { name: string; size: number; created_at: string | null; url: string };
 
 const mb = (b: number) => `${(b / 1024 / 1024).toFixed(1)} MB`;
 
@@ -68,7 +68,7 @@ export function AdminVideos({ password }: { password: string }) {
               <tr key={v.name} className="border-t border-ink/5">
                 <td className="break-all px-4 py-3">{v.name}</td>
                 <td className="whitespace-nowrap px-4 py-3">{mb(v.size)}</td>
-                <td className="whitespace-nowrap px-4 py-3">{new Date(v.created_at).toLocaleString("en-IE")}</td>
+                <td className="whitespace-nowrap px-4 py-3">{v.created_at ? new Date(v.created_at).toLocaleString("en-IE") : "—"}</td>
                 <td className="whitespace-nowrap px-4 py-3">
                   <a href={v.url} target="_blank" rel="noreferrer" className="underline">Open</a>
                   <button type="button" onClick={() => void navigator.clipboard.writeText(v.url)} className="ml-3 underline">Copy link</button>
