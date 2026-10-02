@@ -1,7 +1,7 @@
 /** Public URL for a demo video in the public "videos" bucket. */
 export function videoUrl(file: string) {
   const base = import.meta.env["VITE_SUPABASE_URL"] as string;
-  return `${base}/storage/v1/object/public/videos/${encodeURIComponent(file)}`;
+  return `${base}/storage/v1/object/public/videos/${encodeURIComponent(file)}#t=0.1`;
 }
 
 export const demoVideos = [
