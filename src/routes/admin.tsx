@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { adminListOrders, adminResendEmail, adminResetDownloads } from "@/lib/orders.functions";
+import { AdminVideos } from "@/components/AdminVideos";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -99,6 +100,7 @@ function Admin() {
                 </tbody>
               </table>
             </div>
+            <AdminVideos password={pw} />
           </>
         )}
       </div>
