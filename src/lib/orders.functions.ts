@@ -94,3 +94,38 @@ export const adminResetDownloads = createServerFn({ method: "POST" })
     const { error } = await supabaseAdmin.from("orders").update({ download_count: 0 }).eq("id", data.orderId);
     return error ? { ok: false as const, message: "Could not reset." } : { ok: true as const, message: "Downloads reset." };
   });
+
+const videoName = z.string().trim().min(1).max(200)
+  .regex(/^[^/\\]+\.mp4$/i, "Only .mp4 files are allowed.");
+
+export const adminListVideos = createServerFn({ method: "POST" })
+  .inputValidator((d) => z.object({ password: z.string().min(1).max(200) }).parse(d))
+  .handler(async ({ data }) => {
+    const denied = await checkAdmin(data.password);
+    if (denied) return { ok: false as const, error: denied };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: files, error } = await supabaseAdmin.storage.from("videos")
+      .list("", { limit: 1000, sortBy: { column: "created_at", order: "desc" } });
+    if (error) return { ok: false as const, error: "Could not load videos." };
+    return {
+      ok: true as const,
+      videos: (files ?? []).filter((f) => f.id).map((f) => ({
+        name: f.name,
+        size: (f.metadata as { size?: number } | null)?.size ?? 0,
+        created_at: f.created_at,
+        url: supabaseAdmin.storage.from("videos").getPublicUrl(f.name).data.publicUrl,
+      })),
+    };
+  });
+
+export const adminCreateVideoUpload = createServerFn({ method: "POST" })
+  .inputValidator((d) => z.object({ password: z.string().min(1).max(200), name: videoName }).parse(d))
+  .handler(async ({ data }) => {
+    const denied = await checkAdmin(data.password);
+    if (denied) return { ok: false as const, message: denied };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: s, error } = await supabaseAdmin.storage.from("videos")
+      .createSignedUploadUrl(data.name, { upsert: true });
+    if (error || !s) return { ok: false as const, message: "Could not start upload." };
+    return { ok: true as const, path: s.path, token: s.token };
+  });
