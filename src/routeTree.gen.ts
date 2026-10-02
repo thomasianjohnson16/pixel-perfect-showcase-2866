@@ -16,6 +16,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
+import { Route as VideosRouteImport } from './routes/videos'
 import { Route as ApiPublicDownloadRouteImport } from './routes/api/public/download'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -54,6 +55,11 @@ const ThankYouRoute = ThankYouRouteImport.update({
   path: '/thank-you',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VideosRoute = VideosRouteImport.update({
+  id: '/videos',
+  path: '/videos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicDownloadRoute = ApiPublicDownloadRouteImport.update({
   id: '/api/public/download',
   path: '/api/public/download',
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/refund-policy': typeof RefundPolicyRoute
   '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
+  '/videos': typeof VideosRoute
   '/api/public/download': typeof ApiPublicDownloadRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -85,6 +92,7 @@ export interface FileRoutesByTo {
   '/refund-policy': typeof RefundPolicyRoute
   '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
+  '/videos': typeof VideosRoute
   '/api/public/download': typeof ApiPublicDownloadRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/refund-policy': typeof RefundPolicyRoute
   '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
+  '/videos': typeof VideosRoute
   '/api/public/download': typeof ApiPublicDownloadRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
     | '/refund-policy'
     | '/terms'
     | '/thank-you'
+    | '/videos'
     | '/api/public/download'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/refund-policy'
     | '/terms'
     | '/thank-you'
+    | '/videos'
     | '/api/public/download'
     | '/api/public/payments/webhook'
   id:
@@ -132,6 +143,7 @@ export interface FileRouteTypes {
     | '/refund-policy'
     | '/terms'
     | '/thank-you'
+    | '/videos'
     | '/api/public/download'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -144,6 +156,7 @@ export interface RootRouteChildren {
   RefundPolicyRoute: typeof RefundPolicyRoute
   TermsRoute: typeof TermsRoute
   ThankYouRoute: typeof ThankYouRoute
+  VideosRoute: typeof VideosRoute
   ApiPublicDownloadRoute: typeof ApiPublicDownloadRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
@@ -199,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThankYouRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/videos': {
+      id: '/videos'
+      path: '/videos'
+      fullPath: '/videos'
+      preLoaderRoute: typeof VideosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/download': {
       id: '/api/public/download'
       path: '/api/public/download'
@@ -224,6 +244,7 @@ const rootRouteChildren: RootRouteChildren = {
   RefundPolicyRoute: RefundPolicyRoute,
   TermsRoute: TermsRoute,
   ThankYouRoute: ThankYouRoute,
+  VideosRoute: VideosRoute,
   ApiPublicDownloadRoute: ApiPublicDownloadRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
