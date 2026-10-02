@@ -13,6 +13,7 @@ import { PetQuiz } from "@/components/PetQuiz";
 import { CheckoutProvider, ConsentBox, PaymentTestModeBanner, useCheckout } from "@/components/Checkout";
 import { CookieBanner } from "@/components/CookieBanner";
 import { track } from "@/lib/pixel";
+import { videoUrl } from "@/lib/videos";
 
 export function BuyTrigger({ children, className = "" }: { children: ReactNode; className?: string }) {
   const { buy } = useCheckout();
@@ -102,7 +103,7 @@ function Logo({ light = false }: { light?: boolean }) {
 }
 
 const trust = [
-  { icon: Download, label: "Instant download" },
+  { icon: Download, label: "Instant download + video demos" },
   { icon: PawPrint, label: "Dogs & cats" },
   { icon: Heart, label: "30-day money-back guarantee" },
   { icon: Lock, label: "Secure checkout" },
@@ -142,6 +143,7 @@ const pageAlts = [
 const insideList = [
   "8 step-by-step dog exercises",
   "3 play-based cat exercises",
+  "11 short video demos, one for every exercise",
   "The 10-minute daily routine",
   "4-week plan that builds week by week",
   "Day 1 and Day 28 mobility score",
@@ -382,7 +384,11 @@ function Landing() {
       {/* Free exercise */}
       <Section className="bg-sage">
         <H2 className="text-center">Try one exercise free, right now</H2>
-        <article className="mx-auto mt-10 max-w-2xl overflow-hidden rounded-2xl bg-card shadow-soft">
+        <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 items-start gap-8 lg:grid-cols-2">
+        <video src={videoUrl("03-sit-to-stand.mp4")} autoPlay muted loop playsInline preload="metadata"
+          aria-label="Demo video: a senior dog doing the Sit-to-Stand exercise"
+          className="aspect-square w-full max-w-[640px] justify-self-center rounded-2xl bg-card object-cover shadow-soft" />
+        <article className="min-w-0 overflow-hidden rounded-2xl bg-card shadow-soft">
           <div className="p-7 sm:p-10">
             <p className="text-base font-semibold uppercase tracking-widest text-forest">Exercise 1 · Dogs</p>
             <h3 className="mt-2 text-2xl font-semibold sm:text-3xl">Sit-to-Stand — the everyday super-move</h3>
@@ -410,6 +416,7 @@ function Landing() {
             Sitting crooked or hauling up with the front legs: use the corner and do fewer reps.
           </div>
         </article>
+        </div>
         <div className="mt-10 text-center">
           <p className="font-serif text-xl">That's 1 of 11 exercises. Get the full plan.</p>
           <BuyButton className="mt-6">Get the 28-day plan – {PRICE}</BuyButton>
@@ -466,7 +473,7 @@ function Landing() {
           <img src={cover} width={768} height={1024} loading="lazy" decoding="async" alt="Senior Pet Mobility guide cover" className="mx-auto w-28 -rotate-3 rounded-lg shadow-soft" />
           <h2 className="mt-6 text-2xl font-semibold sm:text-3xl">The 28-Day Senior Mobility Plan</h2>
           <ul className="mx-auto mt-6 max-w-xs space-y-2 text-left text-base">
-            {["11 dog & cat exercises", "10-minute daily routine", "4-week plan + 28-day tracker", "Day 1 & Day 28 mobility score", "Traffic-light safety guide", "Home checklist, vet questions & certificate"].map((t) => (
+            {["11 dog & cat exercises", "11 short video demos, one for every exercise", "10-minute daily routine", "4-week plan + 28-day tracker", "Day 1 & Day 28 mobility score", "Traffic-light safety guide", "Home checklist, vet questions & certificate"].map((t) => (
               <li key={t} className="flex gap-2"><Check className="h-4 w-4 shrink-0 text-amber" strokeWidth={3} />{t}</li>
             ))}
           </ul>
