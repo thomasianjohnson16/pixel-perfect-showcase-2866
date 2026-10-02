@@ -17,3 +17,5 @@
 - Every buy button goes through `useCheckout().buy`, which requires the withdrawal-consent tick before opening the overlay — consent is stored with the order via checkout customData.
 - Meta Pixel code in `src/lib/pixel.ts` loads only after explicit cookie acceptance and does nothing while the Pixel ID is empty.
 - Download email sending is centralised in `sendDownloadEmail` (orders.server.ts) — currently a logging stub until an email domain is set up.
+
+- Admin video uploads go through adminCreateVideoUpload (password-checked signed upload URL) into the public `videos` bucket; browser uploads directly to storage so large files skip the server.
