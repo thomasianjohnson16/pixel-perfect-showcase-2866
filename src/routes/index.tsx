@@ -475,7 +475,7 @@ function Landing() {
           <PricingBuy />
           <div className="mt-6 flex items-start gap-3 rounded-2xl bg-sage p-4 text-left text-base">
             <ShieldCheck className="h-6 w-6 shrink-0 text-forest" />
-            <p><strong>30-day money-back guarantee.</strong> If it doesn't help, email us and we'll refund you. No forms, no fuss.</p>
+            <p><strong>30-day money-back guarantee.</strong> If it doesn't help, email us or visit paddle.net within 30 days for a full refund. <Link to="/refund-policy" className="underline">Refund policy</Link></p>
           </div>
           <div className="mt-5 flex items-center justify-center gap-2 text-base text-ink/55">
             <Lock className="h-3.5 w-3.5" /> Secure checkout ·

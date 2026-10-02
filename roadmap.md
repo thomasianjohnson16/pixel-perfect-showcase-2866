@@ -20,4 +20,4 @@
 - [x] sitemap.xml + robots.txt (update URL if a custom domain is added)
 - [ ] Meta Pixel after cookie consent — built; blocked: needs real Pixel ID
 - [x] UTM capture saved with orders
-- [ ] Legal pages (Terms, Privacy, Refund) needed before going live — needs legal business name
+- [x] Legal pages (Terms, Privacy, Refund, Disclaimer) for Thomas Johnson
