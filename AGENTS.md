@@ -20,3 +20,4 @@
 
 - Admin video uploads go through adminCreateVideoUpload (password-checked signed upload URL) into the public `videos` bucket; browser uploads directly to storage so large files skip the server.
 - All absolute URLs (canonical, og:url, og:image, sitemap) come from SITE_URL in src/lib/site.ts; /sitemap.xml is a server route generated from SITEMAP_ROUTES — add indexable pages there.
+- Exercise page content lives only in src/data/exercises.ts (linked to demo videos by videoId); /exercises and /exercises/$slug render from it — edit content there, not in routes.
