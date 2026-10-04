@@ -93,7 +93,7 @@ function About() {
       </main>
       <footer className="bg-forest-deep px-5 py-8 text-cream/85">
         <nav aria-label="Footer" className="mx-auto flex max-w-3xl flex-wrap gap-x-6">
-          {([["Home", "/"], ["Video demos", "/videos"], ["Terms", "/terms"], ["Privacy", "/privacy"], ["Refund Policy", "/refund-policy"], ["Disclaimer", "/disclaimer"]] as const).map(([l, to]) => (
+          {([["Home", "/"], ["Exercises", "/exercises"], ["Video demos", "/videos"], ["Terms", "/terms"], ["Privacy", "/privacy"], ["Refund Policy", "/refund-policy"], ["Disclaimer", "/disclaimer"]] as const).map(([l, to]) => (
             <Link key={to} to={to} className="inline-flex min-h-12 items-center hover:text-cream">{l}</Link>
           ))}
         </nav>

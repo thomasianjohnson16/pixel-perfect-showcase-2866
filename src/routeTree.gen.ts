@@ -19,6 +19,8 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as VideosRouteImport } from './routes/videos'
+import { Route as ExercisesIndexRouteImport } from './routes/exercises.index'
+import { Route as ExercisesSlugRouteImport } from './routes/exercises.$slug'
 import { Route as ApiPublicDownloadRouteImport } from './routes/api/public/download'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -72,6 +74,16 @@ const VideosRoute = VideosRouteImport.update({
   path: '/videos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExercisesIndexRoute = ExercisesIndexRouteImport.update({
+  id: '/exercises/',
+  path: '/exercises/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExercisesSlugRoute = ExercisesSlugRouteImport.update({
+  id: '/exercises/$slug',
+  path: '/exercises/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicDownloadRoute = ApiPublicDownloadRouteImport.update({
   id: '/api/public/download',
   path: '/api/public/download',
@@ -95,6 +107,8 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
   '/videos': typeof VideosRoute
+  '/exercises/$slug': typeof ExercisesSlugRoute
+  '/exercises/': typeof ExercisesIndexRoute
   '/api/public/download': typeof ApiPublicDownloadRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -109,6 +123,8 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
   '/videos': typeof VideosRoute
+  '/exercises/$slug': typeof ExercisesSlugRoute
+  '/exercises': typeof ExercisesIndexRoute
   '/api/public/download': typeof ApiPublicDownloadRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -124,6 +140,8 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
   '/videos': typeof VideosRoute
+  '/exercises/$slug': typeof ExercisesSlugRoute
+  '/exercises/': typeof ExercisesIndexRoute
   '/api/public/download': typeof ApiPublicDownloadRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -140,6 +158,8 @@ export interface FileRouteTypes {
     | '/terms'
     | '/thank-you'
     | '/videos'
+    | '/exercises/$slug'
+    | '/exercises/'
     | '/api/public/download'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -154,6 +174,8 @@ export interface FileRouteTypes {
     | '/terms'
     | '/thank-you'
     | '/videos'
+    | '/exercises/$slug'
+    | '/exercises'
     | '/api/public/download'
     | '/api/public/payments/webhook'
   id:
@@ -168,6 +190,8 @@ export interface FileRouteTypes {
     | '/terms'
     | '/thank-you'
     | '/videos'
+    | '/exercises/$slug'
+    | '/exercises/'
     | '/api/public/download'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -183,6 +207,8 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ThankYouRoute: typeof ThankYouRoute
   VideosRoute: typeof VideosRoute
+  ExercisesSlugRoute: typeof ExercisesSlugRoute
+  ExercisesIndexRoute: typeof ExercisesIndexRoute
   ApiPublicDownloadRoute: typeof ApiPublicDownloadRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
@@ -259,6 +285,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VideosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/exercises/': {
+      id: '/exercises/'
+      path: '/exercises'
+      fullPath: '/exercises/'
+      preLoaderRoute: typeof ExercisesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exercises/$slug': {
+      id: '/exercises/$slug'
+      path: '/exercises/$slug'
+      fullPath: '/exercises/$slug'
+      preLoaderRoute: typeof ExercisesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/download': {
       id: '/api/public/download'
       path: '/api/public/download'
@@ -287,6 +327,8 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ThankYouRoute: ThankYouRoute,
   VideosRoute: VideosRoute,
+  ExercisesSlugRoute: ExercisesSlugRoute,
+  ExercisesIndexRoute: ExercisesIndexRoute,
   ApiPublicDownloadRoute: ApiPublicDownloadRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }

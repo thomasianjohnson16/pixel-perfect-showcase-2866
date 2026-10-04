@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { PawPrint } from "lucide-react";
 import { demoVideos, videoUrl, videoFileUrl } from "@/lib/videos";
+import { exercises } from "@/data/exercises";
 import { OG_IMAGE, SITE_URL, absUrl, ldScript, pageSeo } from "@/lib/site";
 
 const videosLd = demoVideos.map((v) => ({
@@ -101,7 +102,12 @@ function VideosPage() {
                 aria-label={`Demo video: ${v.title}`}
                 className="mt-6 aspect-square w-full max-w-[640px] rounded-2xl bg-sage object-cover shadow-soft"
               />
-              <a href="#top" className="mt-4 inline-flex min-h-12 items-center font-medium text-forest underline">Back to top</a>
+              <div className="mt-4 flex flex-wrap gap-x-6">
+                {(() => { const ex = exercises.find((e) => e.videoId === v.id); return ex ? (
+                  <Link to="/exercises/$slug" params={{ slug: ex.slug }} className="inline-flex min-h-12 items-center font-medium text-forest underline">How to do {ex.name}</Link>
+                ) : null; })()}
+                <a href="#top" className="inline-flex min-h-12 items-center font-medium text-forest underline">Back to top</a>
+              </div>
             </section>
           ))}
         </div>
