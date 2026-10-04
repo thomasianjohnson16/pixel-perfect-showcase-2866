@@ -27,6 +27,18 @@ export const SITEMAP_ROUTES: { path: string; lastmod: string; changefreq?: strin
   { path: "/", lastmod: "2026-10-04", changefreq: "weekly", priority: "1.0" },
   { path: "/videos", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.8" },
   { path: "/about", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.6" },
+  { path: "/exercises", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.8" },
+  { path: "/exercises/bicycle-legs", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.7" },
+  { path: "/exercises/cookie-stretches", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.7" },
+  { path: "/exercises/sit-to-stand", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.7" },
+  { path: "/exercises/down-to-sit", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.7" },
+  { path: "/exercises/weight-shifts", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.7" },
+  { path: "/exercises/broomstick-poles", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.7" },
+  { path: "/exercises/figure-of-eight", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.7" },
+  { path: "/exercises/cushion-stand", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.7" },
+  { path: "/exercises/cat-wand-play", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.7" },
+  { path: "/exercises/cat-step-up-staircase", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.7" },
+  { path: "/exercises/cat-treat-trail", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.7" },
 ];
 
 /** Site-wide structured data (rendered in __root head on every page). */
