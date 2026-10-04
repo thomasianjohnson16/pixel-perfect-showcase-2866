@@ -8,7 +8,7 @@ import cover from "@/assets/cover.webp";
 import page1 from "@/assets/page1.webp";
 import page2 from "@/assets/page2.webp";
 import page3 from "@/assets/page3.webp";
-import { SITE_URL, OG_IMAGE, pageSeo } from "@/lib/site";
+import { SITE_URL, OG_IMAGE, pageSeo, ldScript } from "@/lib/site";
 import { PetQuiz } from "@/components/PetQuiz";
 import { CheckoutProvider, ConsentBox, PaymentTestModeBanner, useCheckout } from "@/components/Checkout";
 import { CookieBanner } from "@/components/CookieBanner";
@@ -40,17 +40,24 @@ const DESC =
 const productLd = {
   "@context": "https://schema.org",
   "@type": "Product",
-  name: "Senior Pet Mobility: Exercises for Joint Health (28-Day Plan)",
-  description:
-    "Interactive 16-page PDF: a gentle 28-day, 10-minutes-a-day home exercise plan for older dogs and cats. No equipment needed.",
+  name: "Senior Pet Mobility: 28-Day Home Exercise Plan for Dogs & Cats",
+  description: DESC,
   image: OG_IMAGE,
   brand: { "@type": "Brand", name: "Steady Paws" },
+  category: "Digital download (PDF)",
   offers: {
     "@type": "Offer",
     price: "14.00",
     priceCurrency: "EUR",
     availability: "https://schema.org/InStock",
-    url: SITE_URL + "/",
+    url: SITE_URL,
+    hasMerchantReturnPolicy: {
+      "@type": "MerchantReturnPolicy",
+      applicableCountry: "IE",
+      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+      merchantReturnDays: 30,
+      returnFees: "https://schema.org/FreeReturn",
+    },
   },
 };
 
@@ -75,7 +82,7 @@ export const Route = createFileRoute("/")({
       ...pageSeo("/").links,
       { rel: "preload", as: "image", href: cover, type: "image/webp", fetchPriority: "high" },
     ],
-    scripts: [{ type: "application/ld+json", children: JSON.stringify(productLd) }],
+    scripts: [ldScript(productLd), ldScript(faqLd)],
   }),
   component: Index,
 });
@@ -162,6 +169,16 @@ const faqs = [
   ["Is this veterinary advice?", "No. It's an educational guide and doesn't replace your vet."],
   ["What if it's not for me?", "Email within 30 days for a full refund."],
 ];
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map(([q, a]) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+};
 
 type Testimonial = { quote: string; name: string; pet: string; photo?: string };
 // Add real reviews here. The section stays hidden while this list is empty.
