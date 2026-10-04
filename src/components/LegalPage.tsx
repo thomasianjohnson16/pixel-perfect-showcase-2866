@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { pageSeo } from "@/lib/site";
 
 export const SELLER = "Thomas Johnson";
 export const BRAND = "Steady Paws";
@@ -44,9 +45,10 @@ export function legalHead(title: string, description: string, path: string) {
       { property: "og:title", content: full },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: path },
       { name: "twitter:card", content: "summary" },
+      { name: "robots", content: "noindex, follow" },
+      ...pageSeo(path).meta,
     ],
-    links: [{ rel: "canonical", href: path }],
+    links: pageSeo(path).links,
   };
 }

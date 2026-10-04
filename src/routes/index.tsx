@@ -8,7 +8,7 @@ import cover from "@/assets/cover.webp";
 import page1 from "@/assets/page1.webp";
 import page2 from "@/assets/page2.webp";
 import page3 from "@/assets/page3.webp";
-import ogCover from "@/assets/og-cover.jpg.asset.json";
+import { SITE_URL, OG_IMAGE, pageSeo } from "@/lib/site";
 import { PetQuiz } from "@/components/PetQuiz";
 import { CheckoutProvider, ConsentBox, PaymentTestModeBanner, useCheckout } from "@/components/Checkout";
 import { CookieBanner } from "@/components/CookieBanner";
@@ -36,8 +36,6 @@ function PricingBuy() {
 const TITLE = "Senior Dog & Cat Mobility Exercises | 28-Day Home Plan | Steady Paws";
 const DESC =
   "Gentle 10-minute home exercises for older dogs and cats. No equipment. Interactive 28-day plan with tracker and safety guide. Instant download.";
-const SITE = "https://project--222a8fe5-6084-4fe9-a1ba-2cbea9dcd6db.lovable.app";
-const OG_IMAGE = SITE + ogCover.url;
 
 const productLd = {
   "@context": "https://schema.org",
@@ -52,7 +50,7 @@ const productLd = {
     price: "14.00",
     priceCurrency: "EUR",
     availability: "https://schema.org/InStock",
-    url: SITE + "/",
+    url: SITE_URL + "/",
   },
 };
 
@@ -64,7 +62,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "product" },
-      { property: "og:url", content: "/" },
+      ...pageSeo("/").meta,
       { property: "og:image", content: OG_IMAGE },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
@@ -74,7 +72,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [
-      { rel: "canonical", href: "/" },
+      ...pageSeo("/").links,
       { rel: "preload", as: "image", href: cover, type: "image/webp", fetchPriority: "high" },
     ],
     scripts: [{ type: "application/ld+json", children: JSON.stringify(productLd) }],
@@ -179,7 +177,7 @@ function Testimonials() {
           <figure key={t.name + t.pet} className="rounded-2xl bg-card p-6 shadow-soft">
             <blockquote className="text-ink/85">“{t.quote}”</blockquote>
             <figcaption className="mt-4 flex items-center gap-3 text-base">
-              {t.photo && <img src={t.photo} alt="" className="h-10 w-10 rounded-full object-cover" loading="lazy" />}
+              {t.photo && <img src={t.photo} alt={`Photo of ${t.name}`} width={40} height={40} className="h-10 w-10 rounded-full object-cover" loading="lazy" />}
               <span><strong>{t.name}</strong> · {t.pet}</span>
             </figcaption>
           </figure>
@@ -470,7 +468,7 @@ function Landing() {
       {/* Pricing */}
       <section id="buy" className="scroll-mt-20 bg-forest-deep px-5 py-20 sm:py-24">
         <div className="reveal mx-auto max-w-lg rounded-3xl bg-card p-8 text-center shadow-soft sm:p-10">
-          <img src={cover} width={768} height={1024} loading="lazy" decoding="async" alt="Senior Pet Mobility guide cover" className="mx-auto w-28 -rotate-3 rounded-lg shadow-soft" />
+          <img src={cover} width={768} height={1024} loading="lazy" decoding="async" alt="Senior Pet Mobility guide cover with an older golden retriever and a grey cat" className="mx-auto w-28 -rotate-3 rounded-lg shadow-soft" />
           <h2 className="mt-6 text-2xl font-semibold sm:text-3xl">The 28-Day Senior Mobility Plan</h2>
           <ul className="mx-auto mt-6 max-w-xs space-y-2 text-left text-base">
             {["11 dog & cat exercises", "11 short video demos, one for every exercise", "10-minute daily routine", "4-week plan + 28-day tracker", "Day 1 & Day 28 mobility score", "Traffic-light safety guide", "Home checklist, vet questions & certificate"].map((t) => (

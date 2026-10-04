@@ -2,9 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { PawPrint } from "lucide-react";
 import { demoVideos, videoUrl } from "@/lib/videos";
+import { OG_IMAGE, pageSeo } from "@/lib/site";
 
-const TITLE = "Video demos | Steady Paws";
-const DESC = "Short video demos of every exercise in the Steady Paws 28-day senior pet mobility plan.";
+const TITLE = "Senior Dog Exercise Videos: 11 Home Physio Demos | Steady Paws";
+const DESC = "Watch 20-second demos of 11 gentle exercises for older dogs and cats: sit-to-stand, stretches, balance and DIY cavaletti. No equipment needed.";
 
 export const Route = createFileRoute("/videos")({
   head: () => ({
@@ -14,9 +15,12 @@ export const Route = createFileRoute("/videos")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "robots", content: "noindex" },
+      { property: "og:image", content: OG_IMAGE },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE },
+      ...pageSeo("/videos").meta,
     ],
+    links: pageSeo("/videos").links,
   }),
   component: VideosPage,
 });

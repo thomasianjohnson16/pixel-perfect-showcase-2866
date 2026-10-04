@@ -4,4 +4,21 @@ Disallow: /admin
 Disallow: /thank-you
 Disallow: /api/
 
-Sitemap: https://project--222a8fe5-6084-4fe9-a1ba-2cbea9dcd6db.lovable.app/sitemap.xml
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://steadypaw.enterprises/sitemap.xml
