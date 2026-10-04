@@ -8,7 +8,18 @@
 - [About](https://steadypaw.enterprises/about): who makes it and the veterinary sources it's based on
 
 ## Exercises
-(list each /exercises/ page here once they exist, one line each: name and who it helps)
+- [Gentle Exercises for Senior Dogs and Cats](https://steadypaw.enterprises/exercises): all 11 exercises
+- [Bicycle Legs](https://steadypaw.enterprises/exercises/bicycle-legs): Dogs who are stiff after lying down, or too sore for standing exercises.
+- [Cookie Stretches](https://steadypaw.enterprises/exercises/cookie-stretches): Dogs with a stiff back or neck, or who struggle to turn round or curl up.
+- [Sit-to-Stand](https://steadypaw.enterprises/exercises/sit-to-stand): Dogs who struggle to get up, push up with their front legs, or have weak or wobbly back legs.
+- [Down-to-Sit](https://steadypaw.enterprises/exercises/down-to-sit): Dogs who find getting up from lying down hard work.
+- [Weight Shifts](https://steadypaw.enterprises/exercises/weight-shifts): Dogs whose back legs slip on floors or who look wobbly standing still.
+- [Broomstick Poles](https://steadypaw.enterprises/exercises/broomstick-poles): Dogs who scuff their back paws, trip on steps, or have lost coordination.
+- [Figure-of-Eight Walks](https://steadypaw.enterprises/exercises/figure-of-eight): Dogs who walk stiffly or seem to turn more easily one way than the other.
+- [Cushion Stand](https://steadypaw.enterprises/exercises/cushion-stand): Dogs who are a bit wobbly but steady enough to stand on a soft surface.
+- [Slow-Mo Wand Play](https://steadypaw.enterprises/exercises/cat-wand-play): Senior cats who have slowed down or play less than they used to.
+- [Step-Up Staircase](https://steadypaw.enterprises/exercises/cat-step-up-staircase): Cats who have stopped jumping onto the bed, sofa or windowsill, or hesitate before they jump.
+- [Treat Trail & Reach](https://steadypaw.enterprises/exercises/cat-treat-trail): Older cats who sleep most of the day and move very little.
 
 ## Guides
 (list each /guides/ page here once they exist)
