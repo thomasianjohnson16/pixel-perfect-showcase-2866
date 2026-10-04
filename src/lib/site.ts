@@ -26,6 +26,7 @@ export function pageSeo(path: string) {
 export const SITEMAP_ROUTES: { path: string; lastmod: string; changefreq?: string; priority?: string }[] = [
   { path: "/", lastmod: "2026-10-04", changefreq: "weekly", priority: "1.0" },
   { path: "/videos", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.8" },
+  { path: "/about", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.6" },
 ];
 
 /** Site-wide structured data (rendered in __root head on every page). */

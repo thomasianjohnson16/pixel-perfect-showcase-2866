@@ -1,0 +1,14 @@
+# Steady Paws
+
+> Steady Paws sells a 28-day home exercise plan for senior dogs and cats: an interactive PDF with 11 gentle, equipment-free exercises (8 for dogs, 3 for cats), a 20-second video demo for each, a traffic-light safety check, and a 28-day tracker with a before-and-after mobility score. Price EUR 14, instant download, 30-day money-back guarantee. Made in Greystones, Ireland. Not veterinary advice; owners should check with their vet first.
+
+## Key pages
+- [28-Day Senior Mobility Plan](https://steadypaw.enterprises/): what's inside, price, FAQ
+- [Video demos](https://steadypaw.enterprises/videos): 20-second demos of all 11 exercises
+- [About](https://steadypaw.enterprises/about): who makes it and the veterinary sources it's based on
+
+## Exercises
+(list each /exercises/ page here once they exist, one line each: name and who it helps)
+
+## Guides
+(list each /guides/ page here once they exist)
