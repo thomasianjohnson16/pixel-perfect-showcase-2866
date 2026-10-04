@@ -27,3 +27,27 @@ export const SITEMAP_ROUTES: { path: string; lastmod: string; changefreq?: strin
   { path: "/", lastmod: "2026-10-04", changefreq: "weekly", priority: "1.0" },
   { path: "/videos", lastmod: "2026-10-04", changefreq: "monthly", priority: "0.8" },
 ];
+
+/** Site-wide structured data (rendered in __root head on every page). */
+export const organizationLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: `${SITE_URL}/favicon-512.png`,
+  description: "Gentle home exercise plans for older dogs and cats, made in Ireland.",
+  sameAs: [
+    "https://x.com/SteadyPaw",
+    "https://www.instagram.com/steadypawsmobility/",
+    "https://www.etsy.com/shop/SteadyPawsMobility",
+  ],
+};
+
+export const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: SITE_URL,
+};
+
+export const ldScript = (data: unknown) => ({ type: "application/ld+json", children: JSON.stringify(data) });

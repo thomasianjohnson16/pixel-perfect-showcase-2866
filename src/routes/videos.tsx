@@ -1,8 +1,29 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { PawPrint } from "lucide-react";
-import { demoVideos, videoUrl } from "@/lib/videos";
-import { OG_IMAGE, pageSeo } from "@/lib/site";
+import { demoVideos, videoUrl, videoFileUrl } from "@/lib/videos";
+import { OG_IMAGE, SITE_URL, absUrl, ldScript, pageSeo } from "@/lib/site";
+
+const videosLd = demoVideos.map((v) => ({
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: v.title,
+  description: v.description,
+  thumbnailUrl: [OG_IMAGE],
+  contentUrl: videoFileUrl(v.file),
+  embedUrl: `${absUrl("/videos")}#${v.id}`,
+  uploadDate: v.uploadDate,
+  duration: "PT20S",
+}));
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+    { "@type": "ListItem", position: 2, name: "Video demos", item: absUrl("/videos") },
+  ],
+};
 
 const TITLE = "Senior Dog Exercise Videos: 11 Home Physio Demos | Steady Paws";
 const DESC = "Watch 20-second demos of 11 gentle exercises for older dogs and cats: sit-to-stand, stretches, balance and DIY cavaletti. No equipment needed.";
@@ -21,6 +42,7 @@ export const Route = createFileRoute("/videos")({
       ...pageSeo("/videos").meta,
     ],
     links: pageSeo("/videos").links,
+    scripts: [...videosLd.map(ldScript), ldScript(breadcrumbLd)],
   }),
   component: VideosPage,
 });
