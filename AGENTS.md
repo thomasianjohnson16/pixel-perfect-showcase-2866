@@ -19,3 +19,4 @@
 - Download email sending is centralised in `sendDownloadEmail` (orders.server.ts) — currently a logging stub until an email domain is set up.
 
 - Admin video uploads go through adminCreateVideoUpload (password-checked signed upload URL) into the public `videos` bucket; browser uploads directly to storage so large files skip the server.
+- All absolute URLs (canonical, og:url, og:image, sitemap) come from SITE_URL in src/lib/site.ts; /sitemap.xml is a server route generated from SITEMAP_ROUTES — add indexable pages there.
