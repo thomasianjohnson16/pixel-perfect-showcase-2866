@@ -259,6 +259,7 @@ function Landing() {
             <a href="#inside" className="hover:text-forest">What's inside</a>
             <a href="#how" className="hover:text-forest">How it works</a>
             <a href="#faq" className="hover:text-forest">FAQ</a>
+            <Link to="/about" className="hover:text-forest">About</Link>
           </nav>
           <BuyTrigger className="btn-amber btn-sm">Get the guide – {PRICE}</BuyTrigger>
         </div>
@@ -543,7 +544,7 @@ function Landing() {
           <Logo light />
           <a href="mailto:hello@steadypaws.com" className="flex items-center gap-2 text-base"><Mail className="h-4 w-4" />hello@steadypaws.com</a>
           <nav className="flex flex-wrap gap-5 text-base">
-            {([["Terms", "/terms"], ["Privacy", "/privacy"], ["Refund Policy", "/refund-policy"], ["Disclaimer", "/disclaimer"]] as const).map(([l, to]) => <Link key={to} to={to} className="inline-flex min-h-12 items-center hover:text-cream">{l}</Link>)}
+            {([["About", "/about"], ["Terms", "/terms"], ["Privacy", "/privacy"], ["Refund Policy", "/refund-policy"], ["Disclaimer", "/disclaimer"]] as const).map(([l, to]) => <Link key={to} to={to} className="inline-flex min-h-12 items-center hover:text-cream">{l}</Link>)}
             <button type="button" onClick={() => window.dispatchEvent(new Event("open-cookie-settings"))} className="inline-flex min-h-12 items-center hover:text-cream">Cookie settings</button>
           </nav>
         </div>
