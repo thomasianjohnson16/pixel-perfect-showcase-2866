@@ -52,7 +52,7 @@ export function StoryVideo() {
         type="button"
         onClick={toggle}
         aria-pressed={!muted}
-        className="absolute bottom-4 left-1/2 inline-flex min-h-12 -translate-x-1/2 items-center gap-2 rounded-full bg-ink/75 px-4 text-base font-medium text-cream backdrop-blur"
+        className="absolute bottom-4 left-1/2 inline-flex min-h-12 -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-ink/75 px-4 text-base font-medium text-cream backdrop-blur"
       >
         {muted ? <VolumeX className="h-4 w-4" aria-hidden /> : <Volume2 className="h-4 w-4" aria-hidden />}
         {muted ? "Tap for sound" : "Sound on"}
