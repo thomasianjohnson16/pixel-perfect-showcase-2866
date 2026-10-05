@@ -14,6 +14,7 @@ import { CheckoutProvider, ConsentBox, PaymentTestModeBanner, useCheckout } from
 import { CookieBanner } from "@/components/CookieBanner";
 import { track } from "@/lib/pixel";
 import { videoUrl } from "@/lib/videos";
+import { StoryVideo } from "@/components/StoryVideo";
 
 export function BuyTrigger({ children, className = "" }: { children: ReactNode; className?: string }) {
   const { buy } = useCheckout();
@@ -294,6 +295,25 @@ function Landing() {
         </div>
       </section>
 
+      {/* Why we started */}
+      <Section id="story">
+        <div className="mx-auto grid max-w-5xl items-center gap-10 md:grid-cols-[340px_1fr] md:gap-16">
+          <StoryVideo />
+          <div>
+            <H2>Why we started Steady Paws</H2>
+            <p className="mt-5 text-lg text-ink/75">
+              We're a small new business here in Ireland. We made this short video for anyone whose dog has started taking things a bit slower.
+            </p>
+            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+              <BuyButton>Get the 28-day plan – {PRICE}</BuyButton>
+              <a href="https://www.instagram.com/reel/DeHLCqIhHbN/" target="_blank" rel="noopener" className="btn-outline">
+                Watch & follow on Instagram
+              </a>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* Little things */}
       <Section>
         <div className="mx-auto max-w-2xl text-center">
@@ -543,6 +563,14 @@ function Landing() {
         <div className="mx-auto flex max-w-6xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <Logo light />
           <a href="mailto:hello@steadypaws.com" className="flex items-center gap-2 text-base"><Mail className="h-4 w-4" />hello@steadypaws.com</a>
+          <div className="flex gap-2">
+            <a href="https://www.instagram.com/steadypawsmobility/" target="_blank" rel="noopener" aria-label="Steady Paws on Instagram" className="inline-flex h-12 w-12 items-center justify-center rounded-full hover:bg-cream/10 hover:text-cream">
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>
+            </a>
+            <a href="https://x.com/SteadyPaw" target="_blank" rel="noopener" aria-label="Steady Paws on X" className="inline-flex h-12 w-12 items-center justify-center rounded-full hover:bg-cream/10 hover:text-cream">
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+            </a>
+          </div>
           <nav className="flex flex-wrap gap-5 text-base">
             {([["Exercises", "/exercises"], ["About", "/about"], ["Terms", "/terms"], ["Privacy", "/privacy"], ["Refund Policy", "/refund-policy"], ["Disclaimer", "/disclaimer"]] as const).map(([l, to]) => <Link key={to} to={to} className="inline-flex min-h-12 items-center hover:text-cream">{l}</Link>)}
             <button type="button" onClick={() => window.dispatchEvent(new Event("open-cookie-settings"))} className="inline-flex min-h-12 items-center hover:text-cream">Cookie settings</button>
