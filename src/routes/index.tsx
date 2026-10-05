@@ -271,13 +271,13 @@ function Landing() {
         <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
           <div>
             <span className="inline-block rounded-full bg-amber/15 px-4 py-1.5 text-base font-medium tracking-wide text-amber">
-              For senior dogs & cats · No equipment
+              Steady Paws: guides for comfier, happier later years for older dogs and cats
             </span>
             <h1 className="mt-6 text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
-              Help your older pet move more easily, in 10 minutes a day.
+              Help your older pet feel better, every day.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-cream/80">
-              A gentle 28-day home exercise plan built on the same simple moves vet rehab teams teach owners. All you need is a cushion, a broom handle and a few treats.
+              Simple, vet-friendly guides on movement, home comfort and daily care, made in Ireland.
             </p>
             <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
               <BuyButton className="text-lg">Get the 28-day plan – {PRICE}</BuyButton>
@@ -294,6 +294,36 @@ function Landing() {
           </div>
         </div>
       </section>
+
+      {/* Guides */}
+      <Section id="guides" className="bg-sage">
+        <div className="mx-auto max-w-2xl text-center">
+          <H2>Guides</H2>
+          <p className="mt-5 text-lg text-ink/75">Practical help for every part of your older pet's day.</p>
+        </div>
+        <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-3">
+          <article className="flex flex-col rounded-3xl bg-card p-6 shadow-soft">
+            <img src={cover} width={768} height={1024} loading="lazy" decoding="async" alt="Senior Pet Mobility 28-Day Plan cover" className="aspect-[4/3] w-full rounded-2xl object-cover object-top" />
+            <span className="mt-5 text-base font-medium text-forest">Available now · {PRICE}</span>
+            <h3 className="mt-1 text-2xl font-semibold">Senior Pet Mobility 28-Day Plan</h3>
+            <p className="mt-3 flex-1 text-base text-ink/75">11 gentle home exercises, video demos, a safety check and a 28-day tracker.</p>
+            <BuyButton className="mt-6 w-full">Get the 28-day plan – {PRICE}</BuyButton>
+          </article>
+          {[
+            ["Home Comfort Setup Guide", "Simple changes around the house to make floors, beds and stairs easier."],
+            ["Senior Pet Daily Care Journal", "A friendly daily log for food, moods, comfort and vet notes."],
+          ].map(([t, d]) => (
+            <article key={t} aria-disabled="true" className="flex flex-col rounded-3xl border-2 border-dashed border-ink/15 bg-card/60 p-6 opacity-70 grayscale">
+              <div className="flex aspect-[4/3] w-full items-center justify-center rounded-2xl bg-ink/5">
+                <PawPrint className="h-12 w-12 text-ink/30" aria-hidden />
+              </div>
+              <span className="mt-5 inline-block self-start rounded-full bg-ink/10 px-3 py-1 text-base font-medium text-ink/70">Coming soon</span>
+              <h3 className="mt-2 text-2xl font-semibold text-ink/80">{t}</h3>
+              <p className="mt-3 text-base text-ink/65">{d}</p>
+            </article>
+          ))}
+        </div>
+      </Section>
 
       {/* Why we started */}
       <Section id="story">
